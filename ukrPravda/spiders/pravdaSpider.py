@@ -21,6 +21,6 @@ class PravdaSpider(scrapy.Spider):
             file_name.write('\n')
 
         file_name.close()
-
+ 
 
 
