@@ -1,4 +1,6 @@
 import scrapy
+from scrapy.loader import ItemLoader
+import pravdaItem
 #for i in (response.css("div.article__title a::text").extract()): print(i.encode('utf-8'))
 #for i in response.css('title::text').extract(): print (i.encode('utf -8'))
 
@@ -21,6 +23,6 @@ class PravdaSpider(scrapy.Spider):
             file_name.write('\n')
 
         file_name.close()
- 
+
 
 
