@@ -11,3 +11,5 @@ class Product(scrapy.Item):
 
     title = scrapy.Field()
     date_of_publish = scrapy.Field()
+    #title = scrapy.Field()
+    #url = scrapy.Field()

@@ -2,6 +2,10 @@
 import scrapy
 from scrapy.loader import ItemLoader
 from pravdaItemHelper import Product
+from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
+from scrapy.http import Request
+from scrapy.spider import BaseSpider
+
 from scrapy.loader.processors import TakeFirst, MapCompose, Join
 from w3lib.html import remove_tags
 import ukrPravda.items
@@ -48,7 +52,7 @@ class PravdaitemSpider(scrapy.Spider):
             l.add_css("author", '.bauthor::text')
             l.add_css("title", ".btitle::text")
             l.add_css("date_of_publish", '.bdate::text')
-            #yield l.load_item()
+            yield l.load_item()
 
             with open('blog_data.txt', 'a') as f:
                 title_list = l.get_output_value('title')
