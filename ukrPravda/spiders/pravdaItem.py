@@ -14,14 +14,15 @@ import ukrPravda.items
 
 class PravdaitemSpider(scrapy.Spider):
     name = "pravdaItem"
-    allowed_domains = ["pravdaItem"]
-    start_urls = (
-        'http://www.pravda.com.ua',
+    allowed_domains = ["pravda.com.ua"]
+
+    start_urls = [
+        'http://blogs.pravda.com.ua',
+    ]
         #'http: // brovary.pravo - znaty.org.ua / tag / novini /',
-    )
 
     def parse(self, response):
-        l = ItemLoader(item=Product(), response=response)
+        #l = ItemLoader(item=Product(), response=response)
         # Data from xpath1 is extracted, and passed through the input processor of the name field. The result of the
         # input processor is collected and kept in the Item Loader (but not yet assigned to the item).
         #l.add_css("title", "h1.post-title::text")
@@ -29,8 +30,8 @@ class PravdaitemSpider(scrapy.Spider):
 
         #for i in response.css('title::text').extract():
             #l.add_css("title", i.encode(utf-8))
-
-        l.add_css("title", 'title::text')
+        #l.add_xpath('name', '//div[@class="product_title"]')
+        #l.add_css("title", 'title::text')
 
         #l.add_css("img", "a > .wp-post-image::attr(src)")
         #l.add_css("tags", ".bs-cat a::text, .bs-tags a::text")
@@ -39,4 +40,28 @@ class PravdaitemSpider(scrapy.Spider):
         #l.add_css("date_of_publish", '.rp-date')
         #l.add_css("source", '.ai-info h6 a::text')
         #l.add_value("url", response.url)
-        yield l.load_item()
+        #yield l.load_item()
+
+
+
+            l = ItemLoader(item=Product(), response=response)
+            l.add_css("author", '.bauthor::text')
+            l.add_css("title", ".btitle::text")
+            l.add_css("date_of_publish", '.bdate::text')
+            #yield l.load_item()
+
+            with open('blog_data.txt', 'a') as f:
+                title_list = l.get_output_value('title')
+                author_list = l.get_output_value('author')
+                data_list = l.get_output_value('date_of_publish')
+
+                for author in author_list:
+                    f.write('author: {0}\n'.format(author.encode('utf-8')))
+
+                for title in title_list:
+
+                    f.write('title: {0}\n'.format(title.encode('utf-8')))
+
+                for data in data_list:
+
+                    f.write('data: {0}\n'.format(data.encode('utf-8')))
